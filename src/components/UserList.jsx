@@ -27,7 +27,7 @@ function UserList() {
 
     return(
         <>
-        <h1>Fiebre Club</h1>
+        <h1>Lista de alumnos</h1>
 
         <label htmlFor="userName">Nombre:</label>
         <input type="text" name="userName" value={user} onChange={handleNameChange}/>
