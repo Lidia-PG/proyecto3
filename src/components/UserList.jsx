@@ -1,80 +1,68 @@
-import { useState, useEffect } from "react";
-import { UserService } from "../userService";
+import { useState, useEffect } from 'react';
 
-const UserList = () =>{
-
-    const [user, setUser] = useState(
-    
-        {
-            userName: "",
-            userSurname: ""
-        }
-        );
+const UserList = () => {
+    const [user, setUser] = useState({
+        nombre: "",
+        apellido1: "",
+        apellido2: "",
+        email: "",
+        telefono: ""
+    });
 
     const [userList, setUserList] = useState([]);
 
-    
-    async function getData(){
-        
-        let users = await UserService.getAllUsers();
+    useEffect(() => {
+        async function getData() {
+            let users = await UserService.getAllUsers();
+            setUserList(users);
+        }
+        getData();
+    }, []);
 
-        
-        setUserList(users)  
-
-
-    }
-
-
-    getData();
-
-    function handleNameChange(e){
-
-        
-        setUser({...user, [e.target.name]:e.target.value})
+    function handleInputChange(e) {
+        setUser({ ...user, [e.target.name]: e.target.value });
     };
 
-
-
     async function handleAddUserToList() {
-
-      
         await UserService.submitUser(user);
-    
-
-    
         setUser({
-            userName: "",
-            userSurname: ""
+            nombre: "",
+            apellido1: "",
+            apellido2: "",
+            email: "",
+            telefono: ""
         });
+    }
 
-      }
-
-    return(
-
+    return (
         <>
-        <h1>Qué lista eres</h1>
+            <h1>Lista de alumnos</h1>
 
-{/* hemos añadido  otro input y otro label. Al escribir, cada uno actualiza una propiedad del objeto user*/}
-        <label htmlFor="userName"></label>
-        <input type="text" name="userName" value={user.userName} onChange={handleNameChange}/>
+            <label htmlFor="nombre">Nombre</label>
+            <input type="text" name="nombre" value={user.nombre} onChange={handleInputChange} />
 
-        <label htmlFor="userSurname"></label>
-        <input type="text" name="userSurname" value={user.userSurname} onChange={handleNameChange}/>
+            <label htmlFor="apellido1">Apellido 1</label>
+            <input type="text" name="apellido1" value={user.apellido1} onChange={handleInputChange} />
 
-        <button onClick={handleAddUserToList}>Añadir usuario</button>
-        <ul>
+            <label htmlFor="apellido2">Apellido 2</label>
+            <input type="text" name="apellido2" value={user.apellido2} onChange={handleInputChange} />
 
-{/* antes, como userList era un array de strings, después del map solo teníamos que imprimir la variable "user",
-ahora user es un objeto, para imprimir la información accedo a cada una de las propiedades por separado (dentro del map) */}
-        {
-            userList.map((user, index)=>(
-                <li key={index}> {user.userName} {user.userSurname} </li>
-            ))
-        }
-        </ul>
+            <label htmlFor="email">Email de contacto</label>
+            <input type="email" name="email" value={user.email} onChange={handleInputChange} />
+
+            <label htmlFor="telefono">Teléfono</label>
+            <input type="tel" name="telefono" value={user.telefono} onChange={handleInputChange} />
+
+            <button onClick={handleAddUserToList}>Añadir usuario</button>
+            <ul>
+                {
+                    userList.map((user, index) => (
+                        <li key={index}> {user.nombre} {user.apellido1} {user.apellido2} </li>
+                    ))
+                }
+            </ul>
         </>
-        
-    )
+    );
 }
 
 export default UserList;
