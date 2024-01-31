@@ -11,6 +11,9 @@ const apiClient = axios.create({
 export const UserService = {
    async getAllusers (){
     let response = await apiClient.get("/users")
+    let allUsers = response.data
+    return allUsers
+    
    }
    
 };

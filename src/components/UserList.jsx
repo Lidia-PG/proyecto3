@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { UserService } from "../userService";
 
 const UserList = () => {
     const [user, setUser] = useState({
